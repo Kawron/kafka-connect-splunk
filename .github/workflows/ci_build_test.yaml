@@ -163,6 +163,14 @@ jobs:
           ref: ${{github.event.pull_request.head.sha}}
           repository: ${{github.event.pull_request.head.repo.full_name}}
 
+      - name: Setup Java 17 for Confluent 8.0.X
+        if: matrix.confluent_major_version == '8.0'
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+      - run: java --version
+
       - name: Install Splunk
         run: |
           cd /opt && wget -O $CI_SPLUNK_FILENAME 'https://d7wz6hmoaavd0.cloudfront.net/products/splunk/releases/'$CI_SPLUNK_VERSION'/linux/'$CI_SPLUNK_FILENAME''
@@ -228,25 +236,16 @@ jobs:
           name: splunk-kafka-connector
           path: /tmp
 
-      - name: Setup Java 17 for Confluent 8.0.X
-        if: matrix.confluent_major_version == '8.0'
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'zulu'
-          java-version: '17'
-      - run: java --version
-
       - name: Up the Schema Registry
         run: |
           cd /tmp && wget https://packages.confluent.io/archive/${{ matrix.confluent_major_version }}/confluent-community-${{ matrix.confluent_package_version }}.tar.gz
           sudo tar xzf confluent-community-${{ matrix.confluent_package_version }}.tar.gz
           cd confluent-${{ matrix.confluent_package_version }}
-          java --version
           sudo bin/schema-registry-start ./etc/schema-registry/schema-registry.properties &
 
       - name: Register the protobuf schema
         run: |
-          sleep 10
+          sleep 30
           curl -X POST -H "Content-Type: application/vnd.schemaregistry.v1+json" --data "{\"schemaType\": \"PROTOBUF\",\"schema\": \"syntax = \\\"proto3\\\";\\npackage com.mycorp.mynamespace;\\n\\nmessage MyRecord {\\n  string id = 1;\\n  float amount = 2;\\n  string customer_id = 3;\\n}\\n\"}" http://localhost:8081/subjects/prototopic-value/versions
 
       - name: Test kafka connect upgrade
