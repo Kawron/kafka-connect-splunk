@@ -36,9 +36,9 @@ def check_events_from_topic(target):
         else:
             class_name = "org.apache.kafka.tools.GetOffsetShell"
         output1 = subprocess.getoutput(f"echo $(/usr/local/kafka/bin/kafka-run-class.sh {class_name} --broker-list 'localhost:9092' --topic kafka_connect_upgrade  --time -1"
-                                       + " | grep -e ':[[:digit:]]*:' | grep -v WARN | awk -F  ':' '{sum += $3} END {print sum}')")
+                                       + " | grep -e ':[[:digit:]]*:' | grep -v 'WARN' | awk -F  ':' '{sum += $3} END {print sum}')")
         output2 = subprocess.getoutput(f"echo $(/usr/local/kafka/bin/kafka-run-class.sh {class_name} --broker-list 'localhost:9092' --topic kafka_connect_upgrade --time -2"
-                                       + " | grep -e ':[[:digit:]]*:' | grep -v WARN | awk -F  ':' '{sum += $3} END {print sum}')")
+                                       + " | grep -e ':[[:digit:]]*:' | grep -v 'WARN' | awk -F  ':' '{sum += $3} END {print sum}')")
         print("---------------------\n" + output1)
         print(output2 + "\n---------------------")
         time.sleep(5)
