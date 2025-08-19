@@ -137,6 +137,10 @@ jobs:
             kafka_package: "kafka_2.12-3.8.1.tgz"
             confluent_major_version: "7.8"
             confluent_package_version: "7.8.3"
+          - kafka_version: "4.0.0"
+            kafka_package: "kafka_2.13-4.0.0.tgz"
+            confluent_major_version: "8.0"
+            confluent_package_version: "8.0.0"
     env:
       CI_SPLUNK_VERSION: "9.0.2"
       CI_SPLUNK_FILENAME: splunk-9.0.2-17e00c557dc1-Linux-x86_64.tgz
@@ -223,6 +227,13 @@ jobs:
         with:
           name: splunk-kafka-connector
           path: /tmp
+
+      - name: Setup Java 17 for Confluent 8.0.X
+        if: matrix.confluent_major_version == '8.0'
+        uses: actions/setup-java@4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
 
       - name: Up the Schema Registry
         run: |
