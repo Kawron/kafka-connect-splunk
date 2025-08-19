@@ -234,7 +234,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '17'
-        run: java --version
+      - run: java --version
 
       - name: Up the Schema Registry
         run: |
