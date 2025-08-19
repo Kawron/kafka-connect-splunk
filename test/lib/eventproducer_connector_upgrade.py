@@ -40,6 +40,8 @@ def check_events_from_topic(target):
         output2 = subprocess.getoutput(f"echo $(/usr/local/kafka/bin/kafka-run-class.sh {class_name} --broker-list 'localhost:9092' --topic kafka_connect_upgrade --time -2"
                                        + " | grep -e ':[[:digit:]]*:' | grep -v WARN | awk -F  ':' '{sum += $3} END {print sum}')")
         time.sleep(5)
+        print(output1)
+        print(output2)
         if (int(output1)-int(output2))==target:
             logger.info("Events in the topic :" + str(int(output1)-int(output2)))
             break
