@@ -243,6 +243,7 @@ jobs:
           cd confluent-${{ matrix.confluent_package_version }}
           java --version
           sudo bin/schema-registry-start ./etc/schema-registry/schema-registry.properties &
+          sleep 30
 
       - name: Register the protobuf schema
         run: |
