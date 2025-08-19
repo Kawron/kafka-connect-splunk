@@ -230,7 +230,7 @@ jobs:
 
       - name: Setup Java 17 for Confluent 8.0.X
         if: matrix.confluent_major_version == '8.0'
-        uses: actions/setup-java@4
+        uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
