@@ -241,6 +241,7 @@ jobs:
           cd /tmp && wget https://packages.confluent.io/archive/${{ matrix.confluent_major_version }}/confluent-community-${{ matrix.confluent_package_version }}.tar.gz
           sudo tar xzf confluent-community-${{ matrix.confluent_package_version }}.tar.gz
           cd confluent-${{ matrix.confluent_package_version }}
+          java --version
           sudo bin/schema-registry-start ./etc/schema-registry/schema-registry.properties &
 
       - name: Register the protobuf schema
