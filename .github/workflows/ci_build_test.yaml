@@ -155,8 +155,8 @@ jobs:
             confluent_major_version: "7.9"
             confluent_package_version: "7.9.2"
     env:
-      CI_SPLUNK_VERSION: ${{splunk_version}}
-      CI_SPLUNK_FILENAME: ${{splunk_filename}}
+      CI_SPLUNK_VERSION: ${{matrix.splunk.splunk_version}}
+      CI_SPLUNK_FILENAME: ${{matrix.splunk.splunk_filename}}
       CI_SPLUNK_HOST: 127.0.0.1
       CI_SPLUNK_PORT: 8089
       CI_SPLUNK_USERNAME: admin
